@@ -66,6 +66,7 @@ class DetectFace:
         nrof_faces = bounding_boxes.shape[0]
         det_arr = []
         det_faces = []
+        det_face_pos = []
         if nrof_faces > 0:
             det = bounding_boxes[:, 0:4]
             img_size = np.asarray(img.shape)[0:2]
@@ -97,42 +98,8 @@ class DetectFace:
                 face = np.uint8(scaled)
                 det_faces.append(face)
                 cv2.rectangle(img, (bb[0], bb[1]), (bb[2], bb[3]), (0, 255, 0), 2)
-        return det_faces, img
+                det_face_pos.append(tuple((bb[0], bb[1])))
+        return det_faces, det_face_pos, img
 
     def __del__(self):
         print("Destructor called!")
-
-
-# def main(args):
-#     cap = cv2.VideoCapture(0)
-#     detectFace = DetectFace(args)
-#     while True:
-#         ret, img = cap.read()
-#         if ret != -1:
-#             det_faces, res_img = detectFace.getFace(img)
-#             if len(det_faces) > 0:
-#                 print(len(det_faces))
-#             cv2.imshow('detectedFaces', res_img)
-#             cv2.waitKey(1)
-#     cap.release()
-#
-#
-# def parse_arguments(argv):
-#     parser = argparse.ArgumentParser()
-#
-#     parser.add_argument('input_dir', type=str, help='Directory with unaligned images.')
-#     parser.add_argument('output_dir', type=str, help='Directory with aligned face thumbnails.')
-#     parser.add_argument('--image_size', type=int,
-#         help='Image size (height, width) in pixels.', default=182)
-#     parser.add_argument('--margin', type=int,
-#         help='Margin for the crop around the bounding box (height, width) in pixels.', default=44)
-#     parser.add_argument('--random_order',
-#         help='Shuffles the order of images to enable alignment using multiple processes.', action='store_true')
-#     parser.add_argument('--gpu_memory_fraction', type=float,
-#         help='Upper bound on the amount of GPU memory that will be used by the process.', default=1.0)
-#     parser.add_argument('--detect_multiple_faces', type=bool,
-#                         help='Detect and align multiple faces per image.', default=True)
-#     return parser.parse_args(argv)
-#
-# if __name__ == '__main__':
-#     main(parse_arguments(sys.argv[1:]))
