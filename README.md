@@ -3,8 +3,9 @@
 [travis-image]: http://travis-ci.org/davidsandberg/facenet.svg?branch=master
 [travis]: http://travis-ci.org/davidsandberg/facenet
 
+This software is tested on the ubuntu 20.04, with tensorflow 2.x.    
 Added:
-To install this software in conda environment:  
+To install this software in conda environment (optional):  
 1. Create conda environment  
    conda create -n facenet  
 2. activate this conda environment  
