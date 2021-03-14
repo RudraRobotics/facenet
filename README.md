@@ -3,6 +3,19 @@
 [travis-image]: http://travis-ci.org/davidsandberg/facenet.svg?branch=master
 [travis]: http://travis-ci.org/davidsandberg/facenet
 
+Added:
+To install this software in conda environment:  
+1. Create conda environment  
+   conda create -n facenet  
+2. activate this conda environment  
+   conda activate facenet  
+3. Install all the dependencies  
+   pip3 install -r requirements.txt  
+4. Here main.py is the custum implemented program which does face detection and clasification both, to know more please study the code.
+
+To algin the image dataset (extract face in seperate folder using MTCNN based face detetion) and train the classifer bash scripts / .sh files are present on the root directory. 
+         
+
 This is a TensorFlow implementation of the face recognizer described in the paper
 ["FaceNet: A Unified Embedding for Face Recognition and Clustering"](http://arxiv.org/abs/1503.03832). The project also uses ideas from the paper ["Deep Face Recognition"](http://www.robots.ox.ac.uk/~vgg/publications/2015/Parkhi15/parkhi15.pdf) from the [Visual Geometry Group](http://www.robots.ox.ac.uk/~vgg/) at Oxford.
 
