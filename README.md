@@ -12,7 +12,7 @@ To install this software in conda environment (optional):
    conda activate facenet  
 3. Install all the dependencies  
    pip3 install -r requirements.txt  
-4. Here main.py is the custum implemented program which does face detection and clasification both, to know more please study the code.
+4. Here src/main.py is the custum implemented program which does face detection and clasification both, to know more please study the code.
 
 To algin the image dataset (extract face in seperate folder using MTCNN based face detetion) and train the classifer bash scripts / .sh files are present on the root directory. 
          
