@@ -32,7 +32,7 @@ import cv2
 
 def main(args):
     video_path = '/home/rudera/dataset/facenet/katrina.mp4'
-    cap = cv2.VideoCapture(video_path)
+    cap = cv2.VideoCapture(video_path) # To use the camera instead of video file hange video_path with 0
     classifier = Classifier(args)
     detect_face = DetectFace(args)
     while True:
