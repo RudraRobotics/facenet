@@ -61,7 +61,7 @@ class Classifier:
 
             self.classifier_filename_exp = os.path.expanduser(args.classifier_filename)
 
-    def split_dataset(self, dataset):
+    def __split_dataset(self, dataset):
         train_set = []
         test_set = []
         for cls in dataset:
@@ -73,10 +73,10 @@ class Classifier:
                 test_set.append(facenet.ImageClass(cls.name, paths[self.nrof_train_images_per_class:]))
         return train_set, test_set
 
-    def train_images(self, data_dir, use_dataset):
+    def train_faces(self, data_dir, use_dataset):
         if self.use_split_dataset:
             dataset_tmp = facenet.get_dataset(data_dir)
-            train_set, test_set = self.split_dataset(dataset_tmp)
+            train_set, test_set = self.__split_dataset(dataset_tmp)
             if self.mode == 'TRAIN':
                 dataset = train_set
             elif self.mode == 'CLASSIFY':
@@ -112,16 +112,16 @@ class Classifier:
         with open(self.classifier_filename_exp, 'wb') as outfile:
             pickle.dump((model, class_names), outfile)
 
-    def classify_faces(self, data_dir, use_dataset):
+    def classify_faces(self, data_dir):
         paths = []
         labels = []
         ind = 0
         pred_class_names = []
         pred_class_values = []
-        if use_dataset is True:
+        if data_dir[0] is str:
             if self.use_split_dataset:
                 dataset_tmp = facenet.get_dataset(data_dir)
-                train_set, test_set = self.split_dataset(dataset_tmp)
+                train_set, test_set = self.__split_dataset(dataset_tmp)
                 if self.mode == 'TRAIN':
                     dataset = train_set
                 elif self.mode == 'CLASSIFY':
@@ -148,14 +148,12 @@ class Classifier:
             start_index = i * self.batch_size
             end_index = min((i + 1) * self.batch_size, nrof_images)
             paths_batch = paths[start_index:end_index]
-            if use_dataset is True:
-                paths = facenet.load_data(paths_batch, False, False, self.image_size)
+            paths = facenet.load_data(paths_batch, False, False, self.image_size)
             feed_dict = {self.images_placeholder: paths, self.phase_train_placeholder: False}
             emb_array[start_index:end_index, :] = self.sess.run(self.embeddings, feed_dict=feed_dict)
         # Classify images
         with open(self.classifier_filename_exp, 'rb') as infile:
             (model, class_names) = pickle.load(infile)
-
 
         predictions = model.predict_proba(emb_array)
         best_class_indices = np.argmax(predictions, axis=1)
@@ -167,4 +165,3 @@ class Classifier:
 
         accuracy = np.mean(np.equal(best_class_indices, labels))
         return pred_class_names, pred_class_values
-

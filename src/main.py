@@ -31,21 +31,23 @@ import cv2
 
 
 def main(args):
-    cap = cv2.VideoCapture(0)
+    video_path = '/home/rudera/dataset/facenet/katrina.mp4'
+    cap = cv2.VideoCapture(video_path)
     classifier = Classifier(args)
     detect_face = DetectFace(args)
     while True:
         ret, img = cap.read()
-        det_faces, bb, res_img = detect_face.getFaces(img)
+        # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        det_faces, bb, res_img = detect_face.get_faces(img)
         if len(det_faces) > 0:
             if args.mode == 'TRAIN':
-                classifier.train_images(args.data_dir, use_dataset=True)
+                classifier.train_faces(args.data_dir)
             elif args.mode == 'CLASSIFY':
-                pred_class_names, pred_class_values = classifier.classify_faces(det_faces, use_dataset=False)
+                pred_class_names, pred_class_values = classifier.classify_faces(det_faces)
                 for i in range (0,len(pred_class_names)):
-                    cv2.putText(res_img, pred_class_names[i]+':'+str(pred_class_values[i]),
+                    cv2.putText(res_img, pred_class_names[i]+':'+str(int(pred_class_values[i]*100)),
                                 bb[i], cv2.FONT_ITALIC, 1, (209, 80, 0, 255), 3)
-        cv2.imshow('detectedFaces', res_img)
+        cv2.imshow('detectedFaces', img)
         cv2.waitKey(1)
 
 
@@ -100,4 +102,4 @@ def parse_arguments(argv):
 
 
 if __name__ == '__main__':
-    main(parse_arguments(sys.argv[1:]))
+   main(parse_arguments(sys.argv[1:]))

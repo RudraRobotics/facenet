@@ -57,7 +57,7 @@ class DetectFace:
         self.margin = args.margin
         self.image_size = args.image_size
 
-    def getFaces(self, img):
+    def get_faces(self, img):
         if img.ndim == 2:
             img = facenet.to_rgb(img)
         img = img[:, :, 0:3]
@@ -101,5 +101,3 @@ class DetectFace:
                 det_face_pos.append(tuple((bb[0], bb[1])))
         return det_faces, det_face_pos, img
 
-    def __del__(self):
-        print("Destructor called!")

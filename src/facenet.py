@@ -245,8 +245,13 @@ def to_rgb(img):
 def load_data(image_paths, do_random_crop, do_random_flip, image_size, do_prewhiten=True):
     nrof_samples = len(image_paths)
     images = np.zeros((nrof_samples, image_size, image_size, 3))
+    data_type = type(image_paths[0])
     for i in range(nrof_samples):
-        img = imageio.imread(image_paths[i])
+        if data_type is str:
+            img = imageio.imread(image_paths[i])
+        else:
+            img = image_paths[i]
+
         if img.ndim == 2:
             img = to_rgb(img)
         if do_prewhiten:
