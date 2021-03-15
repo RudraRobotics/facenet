@@ -13,7 +13,7 @@ To install this software in conda environment (optional):
 3. Install all the dependencies  
    pip3 install -r requirements.txt  
 4. Here src/main.py is the custum implemented program which does face detection and clasification both, to know more please study the code.
-While running this script, it requires two types of parameter list. One is for the face detection and another for classification. Both this parameters can be found on train_model.sh and test_model.sh i.e same parameters are needs to be used.   
+While running this script, it requires two types of parameter list. One is for the face detection and another for classification. Both this parameters can be found on align_*_dataset.sh and test_model.sh i.e same parameters are needs to be used.   
 To algin the image dataset (extract face in seperate folder using MTCNN based face detetion) and train the classifer bash scripts / .sh files are present on the root directory. 
          
 
